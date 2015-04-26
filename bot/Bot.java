@@ -33,7 +33,7 @@ public class Bot extends PircBot {
      * @param channel The name of the channel ModBot calls home :) ("#channel" format)
      */
     public Bot() {
-        this.setName("ModBot");
+        this.setName(Main.username);
     }
 
     /**
@@ -112,12 +112,17 @@ public class Bot extends PircBot {
                 this.sendMessage("Computerology", "My programmer has restricted the usage of that command. Sorry!");
             }
         } else if (message.toLowerCase().contains("help")) {
-                this.sendMessage(sender, "As well as a lot of the usual IRC commands, I also have some of my own built-in"
-                        + " commands. Here is the full list. And remember, you can always contact a moderator for assistance if my limitations as a bot"
-                        + " begin to show.");
-                this.sendMessage(sender, "You can say, \""+Main.username+", <command>\". <command> being any of the following: mute <user>, seen <user>, report <user> for <reason>, Ping, Marco, do <action>, "
-                        + "think of a number, I'm leaving <reason>.");
+            this.sendMessage(sender, "As well as a lot of the usual IRC commands, I also have some of my own built-in"
+                    + " commands. Here is the full list. And remember, you can always contact a moderator for assistance if my limitations as a bot"
+                    + " begin to show.");
+            this.sendMessage(sender, "You can say, \""+Main.username+", <command>\". <command> being any of the following: mute <user>, seen <user>, report <user> for <reason>, Ping, Marco, do <action>, "
+                    + "think of a number, I'm leaving <reason>.");
+        } else if (message.contains("sendMessage ")) {
+            if (sender.equals("Computerology")) {
+                String message_to_send = message.substring(12);
+                this.sendMessage(Main.channel, message_to_send);
             }
+        }
     }
 
     /**
@@ -145,7 +150,7 @@ public class Bot extends PircBot {
         Database.saveToFile();
 
         //only activate commands if contains "ModBot" in the first part of the string
-        if (message.indexOf("ModBot") == 0) {
+        if (message.indexOf(Main.username) == 0) {
             //help
             if (message.contains(Main.username+", help")) {
                 this.sendMessage(channel, sender+", I have sent you a private message containing some useful information that may help you.");
