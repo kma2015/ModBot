@@ -105,7 +105,7 @@ public class Bot extends PircBot {
                 }
             }
         } else if (message.toLowerCase().contains("clear reports")) {
-            if (sender.equals("Computerology")) {
+            if (sender.equals("Computerology") && (Database.getUser(sender).isOp())) {
                 Database.getReports().clear();
                 this.sendMessage("Computerology", "All user reports cleared. Have a nice day, "+sender);
             } else {
@@ -118,7 +118,7 @@ public class Bot extends PircBot {
             this.sendMessage(sender, "You can say, \""+Main.username+", <command>\". <command> being any of the following: mute <user>, seen <user>, report <user> for <reason>, Ping, Marco, do <action>, "
                     + "think of a number, I'm leaving <reason>.");
         } else if (message.contains("sendMessage ")) {
-            if (sender.equals("Computerology")) {
+            if (sender.equals("Computerology") && (Database.getUser(sender).isOp())) {
                 String message_to_send = message.substring(12);
                 this.sendMessage(Main.channel, message_to_send);
             }
@@ -367,7 +367,7 @@ public class Bot extends PircBot {
 
             //cancel voting
             else if (message.contains(Main.username+", cancel vote")) {
-                if (sender.equals("Computerology")) {
+                if (sender.equals("Computerology") && (Database.getUser(sender).isOp())) {
                     if (accused.length() > 0) {
                         voters.clear();
                         mute_votes = 0;
@@ -384,7 +384,7 @@ public class Bot extends PircBot {
 
             //kick all
             else if (message.contains(Main.username+", kick all")) {
-                if (sender.equals("Computerology")) {
+                if (sender.equals("Computerology") && (Database.getUser(sender).isOp())) {
                     kickAll();
                 } else {
                     this.sendMessage(channel, "My programmer has restricted the usage of that command. Sorry!");
@@ -422,7 +422,7 @@ public class Bot extends PircBot {
         if (Database.getUserProfileFromNickname(sender) == null) {
             Database.addUser(sender, hostname);
         }
-        if (sender.equals("Computerology")) {
+        if (sender.equals("Computerology") && (Database.getUser(sender).isOp())) {
             if (Database.getReports().isEmpty() == false) {
                 this.sendMessage("Computerology", "Greetings, Computerology! In your absence, some reports have been made against other users:");
                 for (int i = 0; i != Database.getReports().size(); i++) {
